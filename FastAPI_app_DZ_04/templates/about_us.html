@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}О нас{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ece9e6, #ffffff);
+    }
+
+    .about-container {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        max-width: 320px;
+        margin: 50px auto;
+        text-align: center;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .profile {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .profile p {
+        margin: 8px 0;
+        font-size: 16px;
+        color: #555;
+    }
+
+    .profile span {
+        font-weight: bold;
+        color: #222;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #6c63ff, #4a47d5);
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    button:active {
+        transform: scale(0.98);
+    }
+</style>
+
+<div class="about-container">
+    <h1>О нас</h1>
+
+    <div class="profile">
+        <p>Имя: <span>{{ name }}</span></p>
+        <p>Возраст: <span>{{ age }}</span></p>
+    </div>
+
+    <button onclick="history.back()">← Назад</button>
+</div>
+{% endblock %}
