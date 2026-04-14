@@ -1,1 +1,1 @@
-Все выполненные дз по курсу Python Developer. Basic
+Все выполненные дз по курсу Python Developer Basic
