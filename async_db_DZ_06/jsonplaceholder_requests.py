@@ -1,57 +1,52 @@
 """
-Домашнее задание №4
-Асинхронная работа с сетью и бд
-
-доработайте функцию main, по вызову которой будет выполняться полный цикл программы
-(добавьте туда выполнение асинхронной функции async_main):
-- создание таблиц (инициализация)
-- загрузка пользователей и постов
-    - загрузка пользователей и постов должна выполняться конкурентно (параллельно)
-      при помощи asyncio.gather (https://docs.python.org/3/library/asyncio-task.html#running-tasks-concurrently)
-- добавление пользователей и постов в базу данных
-  (используйте полученные из запроса данные, передайте их в функцию для добавления в БД)
-- закрытие соединения с БД
+создайте асинхронные функции для выполнения запросов к ресурсам (используйте aiohttp)
 """
-import asyncio
-from db import create_tables
-from jsonplaceholder_requests import fetch_users_data, fetch_posts_data
-from models import AsyncSessionLocal
+from typing import Any
 import logging
-from sqlalchemy import text
+import aiohttp
+from models import User, Post
+
+USERS_DATA_URL = "https://jsonplaceholder.typicode.com/users"
+POSTS_DATA_URL = "https://jsonplaceholder.typicode.com/posts"
 
 
-async def async_main():
-    await create_tables()
-    try:
-        save_users, save_posts = await asyncio.gather(
-            fetch_users_data(),
-            fetch_posts_data()
+async def fetch_json(
+        url: str,
+) -> dict[str, Any]:
+    logging.info(f"Fetching data from {url}")
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            result = await response.json()
+
+    logging.info(f"Got data from {url}: {result}")
+    return result
+
+
+async def fetch_users_data():
+    users_result = await fetch_json(USERS_DATA_URL)
+    users = []
+
+    for that_user in users_result:
+        user = User(
+            id=that_user.get('id'),
+            name=that_user.get('name'),
+            username=that_user.get('username'),
+            email=that_user.get('email')
         )
-
-        if not save_users or not save_posts:
-            raise ValueError("No data to save")
-
-        async with AsyncSessionLocal() as session:
-            await session.execute(text("TRUNCATE TABLE posts RESTART IDENTITY CASCADE"))
-            await session.execute(text("TRUNCATE TABLE users RESTART IDENTITY CASCADE"))
-            await session.commit()
-
-            async with session.begin():
-                session.add_all(save_users)
-
-        async with AsyncSessionLocal() as session:
-            async with session.begin():
-                session.add_all(save_posts)
+        users.append(user)
+    return users
 
 
-    except Exception as e:
-        logging.error(f'Failed {e}')
-        raise
+async def fetch_posts_data():
+    posts_result = await fetch_json(POSTS_DATA_URL)
+    posts = []
 
-
-def main():
-    return asyncio.run(async_main())
-
-
-if __name__ == "__main__":
-    main()
+    for that_post in posts_result:
+        post = Post(
+            id= that_post.get('id'),
+            userId = that_post.get('userId'),
+            title = that_post.get('title'),
+            body = that_post.get('body')
+        )
+        posts.append(post)
+    return posts
