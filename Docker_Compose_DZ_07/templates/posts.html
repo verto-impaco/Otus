@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Записи{% endblock %}
+
+{% block content %}
+<h1>Записи</h1>
+<p><a class="button" href="{{ url_for('new_post') }}">Добавить запись</a></p>
+
+{% if posts %}
+    {% for post in posts %}
+        <div class="card">
+            <h2>{{ post.title }}</h2>
+            <p class="meta">
+                {{ post.user.name if post.user else "Автор не найден" }}
+                {% if post.user %}(@{{ post.user.username }}){% endif %}
+            </p>
+            <p>{{ post.body }}</p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p class="empty">Записей пока нет.</p>
+{% endif %}
+{% endblock %}

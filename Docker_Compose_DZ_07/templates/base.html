@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Flask DB App{% endblock %}</title>
+    <style>
+        body {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #222;
+        }
+
+        nav {
+            margin-bottom: 25px;
+        }
+
+        nav a,
+        .button,
+        button {
+            display: inline-block;
+            margin: 0 8px 8px 0;
+            padding: 8px 12px;
+            border: 1px solid #777;
+            border-radius: 4px;
+            background: white;
+            color: #222;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button,
+        button {
+            background: #28786f;
+            border-color: #28786f;
+            color: white;
+        }
+
+        .card,
+        form,
+        table,
+        .empty,
+        .flash {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        input,
+        select,
+        textarea {
+            display: block;
+            width: 100%;
+            margin: 6px 0 15px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td,
+        th {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .meta {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="{{ url_for('posts') }}">Записи</a>
+    <a href="{{ url_for('new_post') }}">Добавить запись</a>
+    <a href="{{ url_for('users') }}">Пользователи</a>
+    <a href="{{ url_for('new_user') }}">Добавить пользователя</a>
+</nav>
+
+{% with messages = get_flashed_messages() %}
+    {% for message in messages %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+</body>
+</html>

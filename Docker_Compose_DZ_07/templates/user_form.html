@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Новый пользователь{% endblock %}
+
+{% block content %}
+<h1>Новый пользователь</h1>
+<p><a href="{{ url_for('users') }}">К списку</a></p>
+
+<form method="post">
+    <label>
+        Имя
+        <input name="name" maxlength="100" value="{{ form.get('name', '') }}" required>
+    </label>
+    <label>
+        Username
+        <input name="username" maxlength="50" value="{{ form.get('username', '') }}" required>
+    </label>
+    <label>
+        Email
+        <input type="email" name="email" maxlength="100" value="{{ form.get('email', '') }}" required>
+    </label>
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}
