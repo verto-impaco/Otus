@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+    <div class="page-head">
+        <div>
+            <h1>{{ product.name }}</h1>
+            <p class="muted">Карточка товара с полными данными.</p>
+        </div>
+        <a class="button" href="{% url 'store:product_update' product.pk %}">Редактировать</a>
+    </div>
+
+    <section class="detail-panel">
+        <dl class="detail-list">
+            <dt>Название</dt>
+            <dd>{{ product.name }}</dd>
+
+            <dt>Категория</dt>
+            <dd>{{ product.category.name }}</dd>
+
+            <dt>Описание</dt>
+            <dd>{{ product.description|default:"Описание пока не добавлено." }}</dd>
+
+            <dt>Цена</dt>
+            <dd>{{ product.price }} руб.</dd>
+
+            <dt>Дата создания</dt>
+            <dd>{{ product.created_at|date:"d.m.Y H:i" }}</dd>
+        </dl>
+
+        <div class="detail-actions">
+            <a class="button secondary" href="{% url 'store:product_list' %}">К списку</a>
+            <a class="button" href="{% url 'store:product_update' product.pk %}">Редактировать</a>
+            <a class="button danger" href="{% url 'store:product_delete' product.pk %}">Удалить</a>
+        </div>
+    </section>
+{% endblock %}
