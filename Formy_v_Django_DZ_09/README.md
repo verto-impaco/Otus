@@ -55,4 +55,4 @@ POSTGRES_HOST=localhost
 POSTGRES_PORT=5433
 
 
-Такие же значения указаны в docker-compose.yml.
+Такие же значения указаны в docker-compose.yml
